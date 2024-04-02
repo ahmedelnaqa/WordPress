@@ -1,0 +1,14 @@
+"/**
+* This section makes posts in the admin filterable by the author.
+*/
+add_action('restrict_manage_posts', 'ditt_filter_by_author');
+function ditt_filter_by_author() {
+        $params = array(
+            'name' => 'author',
+            'role__in' => array('author','editor','administrator','postentry')
+        );
+        if ( isset($_GET['user']) ) {
+            $params['selected'] = $_GET['user'];
+    }
+    wp_dropdown_users( $params );
+}"
