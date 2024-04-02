@@ -1,0 +1,35 @@
+"// Automatically delete posts older than x days
+function delete_old_posts() {
+    $category_id = 62; // Set your category ID.
+   
+    $days = 1; // Posts older than this number of days will be deleted.
+
+    $query_date = date('Y-m-d', strtotime(""-$days days""));
+    $args = array(
+        'post_type'      => 'post',
+        'posts_per_page' => -1,
+        'fields'         => 'ids', // Retrieve only the IDs for efficiency.
+        'date_query'     => array(
+            array(
+                'before' => $query_date,
+                'inclusive' => false, // set to true if previous day is considered a day old
+            ),
+        ),
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'category',
+                'field'    => 'term_id',
+                'terms'    => array($category_id),
+            ),
+        ),
+    );
+    $old_posts = new WP_Query($args);
+
+    if ($old_posts->have_posts()) :
+        while ($old_posts->have_posts()) : $old_posts->the_post();
+            wp_delete_post(get_the_ID(), true);
+        endwhile;
+    endif;
+    wp_reset_postdata();
+}
+add_action('wp', 'delete_old_posts');"
