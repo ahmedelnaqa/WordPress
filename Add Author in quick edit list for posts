@@ -1,0 +1,8 @@
+"add_action('wp_dropdown_users_args', 'filter_authors');
+function filter_authors( $args ) {
+	if ( isset( $args['who'])) {
+		$args['role__in'] = ['author', 'editor', 'administrator', 'manager','postentry'];
+		unset( $args['who']);
+	}
+	return $args;
+}"
