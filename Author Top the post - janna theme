@@ -1,0 +1,12 @@
+"//remove_action( 'TieLabs/post_components', 'tie_post_about_author', 30 );
+// add_action( 'TieLabs/before_the_article', 'tie_post_about_author', 20 );
+
+
+add_action( 'init', 'jnh_author_top_tpost' );
+function jnh_author_top_tpost(){
+	remove_action( 'TieLabs/post_components', 'tie_post_about_author', 20 );
+	add_action( 'TieLabs/before_the_article', 'tie_post_about_author', 20 );
+}
+
+
+"
